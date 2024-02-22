@@ -15,5 +15,6 @@ jobs:
   name: Build
   runs-on: [ ubuntu-latest ]
   steps:
-    run: |
+    - name: Build Project
+      run: |
         echo "Code Build!!!"
