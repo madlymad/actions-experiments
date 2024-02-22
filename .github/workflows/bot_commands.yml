@@ -1,0 +1,36 @@
+name: Bot Commands
+
+on:
+  issue_comment:
+    types: [ created, edited ]
+
+jobs:
+
+  check_comment:
+    runs-on: [ ubuntu-latest ]
+    if: ${{ github.event.issue.pull_request }}
+    outputs:
+      trigger: ${{ steps.action_check.outputs.trigger }}
+    steps:
+      - id: action_check
+        name: Check for command
+        run: |
+          if [[ "${{ github.event.comment.body }}" == *"/build"* ]]; then
+            echo "trigger=build" >> "$GITHUB_OUTPUT"
+          else
+            echo "trigger=\"\"" >> "$GITHUB_OUTPUT"
+          fi
+
+  checkout:
+    runs-on: [ ubuntu-latest ] 
+    needs: [ check_comment ]
+    if: needs.check_comment.outputs.trigger != ''
+    steps:
+      - uses: actions/checkout@v4
+
+  trigger_build:
+    name: Trigger build
+    needs: [ check_comment, checkout ]
+    if: ${{ needs.check_comment.outputs.trigger == "build" }}
+    uses: ./.github/workflows/build.yml
+    secrets: inherit
