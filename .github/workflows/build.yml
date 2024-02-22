@@ -21,5 +21,9 @@ jobs:
         run: |
           echo "Code Build!"
       - name: Comment
+        if: ${{ github.event.pull_request.number != '' }}
         run: |
-          gh pr comment 1 --body "Hi from GitHub CLI"
+          gh pr comment \
+            github.event.pull_request.number \
+            --repo ${{github.repository}} \
+            --body "Hi from GitHub CLI"
