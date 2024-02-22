@@ -5,7 +5,13 @@ on:
     types: [ created, edited ]
 
 env:
-  GH_TOKEN: ${{ secrets.PAT_GH_TOCKEN }}
+  #GH_TOKEN: ${{ secrets.PAT_GH_TOCKEN }}
+  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+permissions:
+  actions: write
+  issues: write
+  pull-requests: write
 
 jobs:
 
