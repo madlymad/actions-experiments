@@ -5,21 +5,12 @@ on:
     types: [ created, edited ]
 
 env:
-  #GH_TOKEN: ${{ secrets.PAT_GH_TOCKEN }}
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-permissions:
-  actions: write
-  issues: write
-  pull-requests: write
+  GH_TOKEN: ${{ github.token }}
 
 jobs:
 
   check_comment:
     runs-on: [ ubuntu-latest ]
-    permissions:
-      issues: write
-      pull-requests: write
     if: ${{ github.event.issue.pull_request }}
     outputs:
       request_build: ${{ steps.build_check.outputs.build }}
