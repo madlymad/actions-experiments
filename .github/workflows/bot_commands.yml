@@ -16,7 +16,17 @@ jobs:
       - id: build_check
         name: Check for build
         if: ${{ contains(github.event.comment.body, '/build') }}
-        run: echo "::set-output name=build::true"
+        run: |
+          echo "Selected to BUILD"
+          echo "build=true" >> $GITHUB_OUTPUT
+
+  checkout-debug:
+    runs-on: [ ubuntu-latest ] 
+    needs: [ check_comment ]
+    steps:
+      - run: |
+          echo "Check 'needs.check_comment.outputs.do_checkout'"
+          echo "${{ needs.check_comment.outputs.do_checkout }}"
 
   checkout:
     runs-on: [ ubuntu-latest ] 
