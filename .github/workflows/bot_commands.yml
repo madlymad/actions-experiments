@@ -11,7 +11,7 @@ permissions:
   packages: none
 
 env:
-  GH_TOKEN: ${{ secrets.PAT_GH_TOCKEN }}
+  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
 jobs:
 
