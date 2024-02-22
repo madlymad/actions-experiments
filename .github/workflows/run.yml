@@ -7,7 +7,7 @@ on:
 
 concurrency:
   # unique in PR or run_number in case of workflow_dispatch
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.run_number }}
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.job.job_id || github.run_number }}
   cancel-in-progress: true
 
 jobs:
