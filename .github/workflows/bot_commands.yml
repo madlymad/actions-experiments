@@ -26,18 +26,18 @@ jobs:
     steps:
       - run: |
           echo "Check 'needs.check_comment.outputs.do_checkout'"
-          echo "${{ needs.check_comment.outputs.do_checkout }}"
+          echo "do_checkout: ${{ needs.check_comment.outputs.do_checkout }}"
 
   checkout:
     runs-on: [ ubuntu-latest ] 
     needs: [ check_comment ]
-    if: needs.check_comment.outputs.do_checkout == true
+    if:  ${{ needs.check_comment.outputs.do_checkout }} == true
     steps:
       - uses: actions/checkout@v4
 
   trigger_build:
     name: Trigger build
     needs: [ check_comment, checkout ]
-    if: needs.check_comment.outputs.request_build == true
+    if:  ${{ needs.check_comment.outputs.request_build }} == true
     uses: ./.github/workflows/build.yml
     secrets: inherit
