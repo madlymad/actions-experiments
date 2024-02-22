@@ -11,10 +11,9 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  build:    
-  name: Build
-  runs-on: [ ubuntu-latest ]
-  steps:
-    - name: Build Project
-      run: |
-        echo "Code Build!!!"
+  build:
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: Build Project
+        run: |
+          echo "Code Build!!!"
