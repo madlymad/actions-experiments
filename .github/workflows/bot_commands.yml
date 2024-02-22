@@ -10,27 +10,48 @@ jobs:
     runs-on: [ ubuntu-latest ]
     if: ${{ github.event.issue.pull_request }}
     outputs:
-      trigger: ${{ steps.action_check.outputs.trigger }}
+      request_build: ${{ steps.build_check.outputs.build }}
+      request_run: ${{ steps.build_check.outputs.run }}
+      do_checkout: ${{ steps.build_check.outputs.build || steps.build_check.outputs.run  }}
     steps:
-      - id: action_check
-        name: Check for command
+      - id: build_check
+        name: Check for build
+        if: ${{ contains(github.event.comment.body, '/build') }}
         run: |
-          if [[ "${{ github.event.comment.body }}" == *"/build"* ]]; then
-            echo "trigger=build" >> "$GITHUB_OUTPUT"
-          else
-            echo "trigger=\"\"" >> "$GITHUB_OUTPUT"
-          fi
+          echo "Selected to BUILD"
+          echo "build=true" >> $GITHUB_OUTPUT
+      - id: run_check
+        name: Check for run
+        if: ${{ contains(github.event.comment.body, '/run') }}
+        run: |
+          echo "Selected to RUN"
+          echo "run=true" >> $GITHUB_OUTPUT
+
+  checkout-debug:
+    runs-on: [ ubuntu-latest ] 
+    needs: [ check_comment ]
+    steps:
+      - run: |
+          echo "Check 'needs.check_comment.outputs.do_checkout'"
+          echo "do_checkout: ${{ needs.check_comment.outputs.do_checkout }}"
 
   checkout:
     runs-on: [ ubuntu-latest ] 
     needs: [ check_comment ]
-    if: needs.check_comment.outputs.trigger != ''
+    if:  ${{ needs.check_comment.outputs.do_checkout == true }}
     steps:
       - uses: actions/checkout@v4
 
   trigger_build:
     name: Trigger build
     needs: [ check_comment, checkout ]
-    if: ${{ needs.check_comment.outputs.trigger == "build" }}
+    if:  ${{ needs.check_comment.outputs.request_build == true }}
     uses: ./.github/workflows/build.yml
+    secrets: inherit
+
+  trigger_run:
+    name: Trigger run
+    needs: [ check_comment, checkout ]
+    if:  ${{ needs.check_comment.outputs.request_run == true }}
+    uses: ./.github/workflows/run.yml
     secrets: inherit

@@ -1,4 +1,4 @@
-name: Build
+name: Run
 
 on:
   workflow_dispatch: # manual run
@@ -14,6 +14,6 @@ jobs:
   build:
     runs-on: [ ubuntu-latest ]
     steps:
-      - name: Build Project
+      - name: Run Project
         run: |
-          echo "Code Build!"
+          echo "Run"
