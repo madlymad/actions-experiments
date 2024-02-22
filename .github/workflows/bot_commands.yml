@@ -21,6 +21,14 @@ jobs:
       do_checkout: ${{ steps.build_check.outputs.checkout  }}
 
     steps:
+      - name: Print comment
+        run: echo "comment _${{ github.event.comment.body }}_"
+          gh api \
+          --method POST \
+          -H "Accept: application/vnd.github+json" \
+          -H "X-GitHub-Api-Version: 2022-11-28" \
+          /repos/${{github.repository}}/pulls/comments/${{github.event.comment.id}}/reactions \
+          -f content='eyes'
       - id: build_check
         name: Check for build
         if: ${{ contains(github.event.comment.body, '/build') }}
