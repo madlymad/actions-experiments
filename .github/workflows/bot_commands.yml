@@ -13,6 +13,7 @@ jobs:
     runs-on: [ ubuntu-latest ]
     permissions:
       issues: write
+      pull-requests: write
     if: ${{ github.event.issue.pull_request }}
     outputs:
       request_build: ${{ steps.build_check.outputs.build }}
