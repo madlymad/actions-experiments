@@ -22,7 +22,8 @@ jobs:
 
     steps:
       - name: Print comment
-        run: echo "comment _${{ github.event.comment.body }}_"
+        run: |
+          echo "comment _${{ github.event.comment.body }}_"
           gh api \
           --method POST \
           -H "Accept: application/vnd.github+json" \
