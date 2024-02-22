@@ -31,6 +31,6 @@ jobs:
   trigger_build:
     name: Trigger build
     needs: [ check_comment, checkout ]
-    if: needs.check_comment.outputs.trigger == "build"
+    if: needs.check_comment.outputs.trigger == build
     uses: ./.github/workflows/build.yml
     secrets: inherit
