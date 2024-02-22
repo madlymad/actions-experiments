@@ -5,7 +5,7 @@ on:
     types: [ created, edited ]
 
 env:
-  GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ secrets.PAT_GH_TOCKEN }}
 
 jobs:
 
