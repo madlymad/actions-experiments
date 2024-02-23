@@ -20,7 +20,7 @@ jobs:
     steps:
       - name: Print comment
         run: |
-          echo "comment: \"${{ github.event.comment.body }}\""
+          echo "Processing: \"${{ github.event.comment.body }}\""
       - id: build_check
         name: Check for build
         if: contains(github.event.comment.body, '/build')
@@ -36,13 +36,15 @@ jobs:
           echo "run=true" >> $GITHUB_OUTPUT
           echo "checkout=true" >> $GITHUB_OUTPUT
 
-  checkout-debug:
+  check_comment_request:
     runs-on: [ ubuntu-latest ] 
     needs: [ check_comment ]
     steps:
       - run: |
-          echo "Check 'needs.check_comment.outputs.do_checkout'"
+          echo "Check comment requests:"
           echo "do_checkout: ${{ needs.check_comment.outputs.do_checkout }}"
+          echo "request_build: ${{ needs.check_comment.outputs.request_build }}"
+          echo "request_run: ${{ needs.check_comment.outputs.request_run }}"
 
   checkout:
     runs-on: [ ubuntu-latest ] 
