@@ -17,8 +17,8 @@ jobs:
         echo "${{ toJson(github) }}"
     - name: Dump to summary
       run: |
-        echo "```" >> summary.md
-        ${{ toJson(github) }} >> summary.md
+        echo "```" > summary.md
+        echo '${{ toJson(github) }}' >> summary.md
         echo "```" >> summary.md
         cat summary.md >> $GITHUB_STEP_SUMMARY
 
