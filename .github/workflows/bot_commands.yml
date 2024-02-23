@@ -15,6 +15,9 @@ jobs:
     - name: Dump GitHub context
       run: |
         echo "${{ toJson(github) }}"
+    - name: Dump to summary
+      run: |
+        echo "${{ replace(toJSON(github), "'", "\\'") }}" >> $GITHUB_STEP_SUMMARY
 
   check_comment:
     runs-on: [ ubuntu-latest ]
