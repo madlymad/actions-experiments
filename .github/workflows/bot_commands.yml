@@ -11,13 +11,43 @@ jobs:
   printJob:    
     name: Print event
     runs-on: ubuntu-latest
+    env:
+      GITHUB_CONTEXT: ${{ toJson(github) }}
+      JOB_CONTEXT: ${{ toJson(job) }}
+      STEPS_CONTEXT: ${{ toJson(steps) }}
+      RUNNER_CONTEXT: ${{ toJson(runner) }}
+      STRATEGY_CONTEXT: ${{ toJson(strategy) }}
+      MATRIX_CONTEXT: ${{ toJson(matrix) }}
     steps:
-    - name: Dump GitHub context
-      run: |
-        echo "${{ toJson(github) }}"
-    - name: Dump to summary
-      run: |
-        echo `${{ toJson(github) }}` >> $GITHUB_STEP_SUMMARY
+      - name: Dump GitHub context
+        run: echo "$GITHUB_CONTEXT"
+      - name: Dump job context
+        run: echo "$JOB_CONTEXT"
+      - name: Dump steps context
+        run: echo "$STEPS_CONTEXT"
+      - name: Dump runner context
+        run: echo "$RUNNER_CONTEXT"
+      - name: Dump strategy context
+        run: echo "$STRATEGY_CONTEXT"
+      - name: Dump matrix context
+        run: echo "$MATRIX_CONTEXT"
+      - name: Create Summary
+        run: |
+          echo "# Dump Context" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "## GITHUB_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "$GITHUB_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "## JOB_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "$JOB_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "## STEPS_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "$STEPS_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "## RUNNER_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "$RUNNER_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "## STRATEGY_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "$STRATEGY_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "## MATRIX_CONTEXT" >> $GITHUB_STEP_SUMMARY
+          echo "$MATRIX_CONTEXT" >> $GITHUB_STEP_SUMMARY
+         
 
   check_comment:
     runs-on: [ ubuntu-latest ]
