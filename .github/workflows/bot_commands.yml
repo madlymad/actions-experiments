@@ -20,39 +20,21 @@ jobs:
     steps:
       - name: Print comment
         run: |
-          echo "comment _${{ github.event.comment.body }}_"
-          gh api \
-          --method POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          /repos/${{github.repository}}/pulls/comments/${{github.event.comment.id}}/reactions \
-          -f content='eyes'
+          echo "comment: \"${{ github.event.comment.body }}\""
       - id: build_check
         name: Check for build
-        if: ${{ contains(github.event.comment.body, '/build') }}
+        if: contains(github.event.comment.body, '/build')
         run: |
           echo "Selected to BUILD"
           echo "build=true" >> $GITHUB_OUTPUT
           echo "checkout=true" >> $GITHUB_OUTPUT
-          gh api \
-          --method POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          /repos/${{github.repository}}/pulls/comments/${{github.event.comment.id}}/reactions \
-          -f content='+1'
       - id: run_check
         name: Check for run
-        if: ${{ contains(github.event.comment.body, '/run') }}
+        if: contains(github.event.comment.body, '/run')
         run: |
           echo "Selected to RUN"
           echo "run=true" >> $GITHUB_OUTPUT
           echo "checkout=true" >> $GITHUB_OUTPUT
-          gh api \
-          --method POST \
-          -H "Accept: application/vnd.github+json" \
-          -H "X-GitHub-Api-Version: 2022-11-28" \
-          /repos/${{github.repository}}/pulls/comments/${{github.event.comment.id}}/reactions \
-          -f content='+1'
 
   checkout-debug:
     runs-on: [ ubuntu-latest ] 
@@ -65,20 +47,20 @@ jobs:
   checkout:
     runs-on: [ ubuntu-latest ] 
     needs: [ check_comment ]
-    if:  ${{ needs.check_comment.outputs.do_checkout == 'true' }}
+    if:  needs.check_comment.outputs.do_checkout == 'true'
     steps:
       - uses: actions/checkout@v4
 
   trigger_build:
     name: Trigger build
     needs: [ check_comment, checkout ]
-    if:  ${{ needs.check_comment.outputs.request_build == 'true' }}
+    if:  needs.check_comment.outputs.request_build == 'true'
     uses: ./.github/workflows/build.yml
     secrets: inherit
 
   trigger_run:
     name: Trigger run
     needs: [ check_comment, checkout ]
-    if:  ${{ needs.check_comment.outputs.request_run == 'true' }}
+    if:  needs.check_comment.outputs.request_run == 'true'
     uses: ./.github/workflows/run.yml
     secrets: inherit
