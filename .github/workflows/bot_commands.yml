@@ -17,7 +17,9 @@ jobs:
         echo "${{ toJson(github) }}"
     - name: Dump to summary
       run: |
-        echo "${{ toJson(github) }}" >> $GITHUB_STEP_SUMMARY
+        echo "```" >> $GITHUB_STEP_SUMMARY
+        echo ${{ toJson(github) }} >> $GITHUB_STEP_SUMMARY
+        echo "```" >> $GITHUB_STEP_SUMMARY
 
   check_comment:
     runs-on: [ ubuntu-latest ]
