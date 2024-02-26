@@ -54,8 +54,8 @@ jobs:
     if: ${{ github.event.issue.pull_request }}
     outputs:
       request_build: ${{ steps.build_check.outputs.build }}
-      request_run: ${{ steps.build_check.outputs.run }}
-      do_checkout: ${{ steps.build_check.outputs.checkout  }}
+      request_run: ${{ steps.run_check.outputs.run }}
+      do_checkout: ${{ steps.do_checkout.outputs.checkout  }}
 
     steps:
       - name: Print comment
@@ -67,7 +67,6 @@ jobs:
         run: |
           echo "Selected to BUILD"
           echo "build=true" >> $GITHUB_OUTPUT
-          echo "checkout=true" >> $GITHUB_OUTPUT
       - id: run_check
         name: Check for run
         if: contains(github.event.comment.body, '/run')
@@ -75,6 +74,12 @@ jobs:
           echo "Selected to RUN"
           echo "run=true" >> $GITHUB_OUTPUT
           echo "checkout=true" >> $GITHUB_OUTPUT
+      - id: do_checkout
+        name: Check for checkout
+        run: |
+          if [[ ${{ build }} || ${{ run }} ]]
+             echo "checkout=true" >> $GITHUB_OUTPUT
+          fi
 
   check_comment_request:
     runs-on: [ ubuntu-latest ] 
