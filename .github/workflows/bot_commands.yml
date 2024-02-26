@@ -55,7 +55,7 @@ jobs:
     outputs:
       request_build: ${{ steps.build_check.outputs.build }}
       request_run: ${{ steps.run_check.outputs.run }}
-      do_checkout: ${{ steps.do_checkout.outputs.checkout  }}
+      do_checkout: ${{ steps.need_checkout.outputs.checkout  }}
 
     steps:
       - name: Print comment
@@ -73,8 +73,7 @@ jobs:
         run: |
           echo "Selected to RUN"
           echo "run=true" >> $GITHUB_OUTPUT
-          echo "checkout=true" >> $GITHUB_OUTPUT
-      - id: do_checkout
+      - id: need_checkout
         name: Check for checkout
         run: |
           if [[ ${{ build }} || ${{ run }} ]]; then
