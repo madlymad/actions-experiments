@@ -77,7 +77,7 @@ jobs:
       - id: do_checkout
         name: Check for checkout
         run: |
-          if [[ ${{ build }} || ${{ run }} ]]
+          if [[ ${{ build }} || ${{ run }} ]]; then
              echo "checkout=true" >> $GITHUB_OUTPUT
           fi
 
