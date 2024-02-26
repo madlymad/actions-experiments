@@ -77,8 +77,8 @@ jobs:
         name: Check for checkout
         run: |
           passed=0
-          ${{ steps.build_check.outputs.build }} && passed=1
-          ${{  steps.run_check.outputs.run  }} && passed=1
+          [[ "${{ steps.build_check.outputs.build }}" == "true" ]] && passed=1
+          [[ "${{ steps.run_check.outputs.run }}" == "true" ]] && passed=1
           
           if ((passed)); then
               printf 'Success! At least one of the commands passed\n'
