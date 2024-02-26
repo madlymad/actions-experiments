@@ -34,6 +34,16 @@ jobs:
       - run: |
           echo "Check 'needs.check_comment.outputs.do_checkout'"
           echo "do_checkout: ${{ needs.check_comment.outputs.do_checkout }}"
+            - name: Print data
+      - run: |
+          echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          echo "GITHUB_SHA: $GITHUB_SHA"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
 
   checkout:
     runs-on: [ ubuntu-latest ] 
@@ -41,6 +51,16 @@ jobs:
     if:  ${{ needs.check_comment.outputs.do_checkout == true }}
     steps:
       - uses: actions/checkout@v4
+      - name: Print data
+        run: |
+          echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          echo "GITHUB_SHA: $GITHUB_SHA"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
 
   trigger_build:
     name: Trigger build
