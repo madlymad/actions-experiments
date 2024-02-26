@@ -76,9 +76,13 @@ jobs:
       - id: need_checkout
         name: Check for checkout
         run: |
-          if [[ ${{ steps.build_check.outputs.build }} || \
-                ${{  steps.run_check.outputs.run  }} ]]; then
-             echo "checkout=true" >> $GITHUB_OUTPUT
+          passed=0
+          ${{ steps.build_check.outputs.build }} && passed=1
+          ${{  steps.run_check.outputs.run  }} && passed=1
+          
+          if ((passed)); then
+              printf 'Success! At least one of the commands passed\n'
+              echo "checkout=true" >> $GITHUB_OUTPUT
           fi
 
   check_comment_request:
