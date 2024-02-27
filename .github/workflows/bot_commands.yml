@@ -35,7 +35,7 @@ jobs:
           echo "Check outputs"
           echo "do_checkout: ${{ needs.check_comment.outputs.do_checkout }}"
           echo "request_build: ${{ needs.check_comment.outputs.request_build }}"
-          echo "request_build: ${{ needs.check_comment.outputs.request_run }}"
+          echo "request_run: ${{ needs.check_comment.outputs.request_run }}"
       - name: Print data
         run: |
           echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
