@@ -10,9 +10,9 @@ jobs:
     runs-on: [ ubuntu-latest ]
     if: ${{ github.event.issue.pull_request }}
     outputs:
-      request_build: ${{ steps.build_check.outputs.build == "true" }}
-      request_run: ${{ steps.run_check.outputs.run == "true" }}
-      do_checkout: ${{ steps.build_check.outputs.build == "true" || steps.run_check.outputs.run == "true" }}
+      request_build: ${{ steps.build_check.outputs.build }} == "true"
+      request_run: ${{ steps.run_check.outputs.run }} == "true"
+      do_checkout: ${{ steps.build_check.outputs.build }}  == "true" || ${{ steps.run_check.outputs.run }} == "true"
     steps:
       - id: build_check
         name: Check for build
