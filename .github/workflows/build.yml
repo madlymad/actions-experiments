@@ -38,4 +38,17 @@ jobs:
           /repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}/reviews \
           -f body='Review Comment' \
           -f event='COMMENT'
-        
+
+  print_data:
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: Print data
+        run: |
+          echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
+          echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          echo "GITHUB_SHA: $GITHUB_SHA"
+          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"

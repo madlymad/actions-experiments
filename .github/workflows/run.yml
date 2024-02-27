@@ -17,6 +17,10 @@ jobs:
       - name: Run Project
         run: |
           echo "Run"
+
+  print_data:
+    runs-on: [ ubuntu-latest ]
+    steps:
       - name: Print data
         run: |
           echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
