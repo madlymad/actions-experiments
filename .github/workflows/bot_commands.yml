@@ -10,9 +10,9 @@ jobs:
     runs-on: [ ubuntu-latest ]
     if: ${{ github.event.issue.pull_request }}
     outputs:
-      request_build: ${{ steps.build_check.outputs.build }}
-      request_run: ${{ steps.build_check.outputs.run }}
-      do_checkout: ${{ steps.build_check.outputs.build || steps.build_check.outputs.run  }}
+      request_build: ${{ steps.build_check.outputs.build == "true" }}
+      request_run: ${{ steps.run_check.outputs.run == "true" }}
+      do_checkout: ${{ steps.build_check.outputs.build == "true" || steps.run_check.outputs.run == "true" }}
     steps:
       - id: build_check
         name: Check for build
@@ -34,8 +34,8 @@ jobs:
       - run: |
           echo "Check 'needs.check_comment.outputs.do_checkout'"
           echo "do_checkout: ${{ needs.check_comment.outputs.do_checkout }}"
-            - name: Print data
-      - run: |
+      - name: Print data
+        run: |
           echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
           echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
           echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
