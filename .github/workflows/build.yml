@@ -20,6 +20,8 @@ jobs:
       - name: Build Project
         run: |
           echo "Code Build!"
+          ls -la
+
       - name: Comment
         if: ${{ github.event.pull_request.number != '' }}
         run: |

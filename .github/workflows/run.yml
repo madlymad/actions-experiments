@@ -16,7 +16,8 @@ jobs:
     steps:
       - name: Run Project
         run: |
-          echo "Run"
+          echo "Run, list data"
+          ls -la
 
   print_data:
     runs-on: [ ubuntu-latest ]
