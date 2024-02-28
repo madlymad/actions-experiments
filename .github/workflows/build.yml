@@ -17,6 +17,7 @@ jobs:
       - name: Build Project
         run: |
           echo "Code Build!"
+          ls -la
 
   print_data:
     runs-on: [ ubuntu-latest ]
