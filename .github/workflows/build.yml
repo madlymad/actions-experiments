@@ -25,10 +25,24 @@ jobs:
       - name: Print data
         run: |
           echo "GITHUB_EVENT_NAME: $GITHUB_EVENT_NAME"
+          echo "---------------------------------"
           echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
           echo "GITHUB_HEAD_REF: $GITHUB_HEAD_REF"
           echo "GITHUB_REF: $GITHUB_REF"
+          echo "GITHUB_REF_NAME: $GITHUB_REF_NAME"
           echo "GITHUB_REF_TYPE: $GITHUB_REF_TYPE"
-          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
           echo "GITHUB_SHA: $GITHUB_SHA"
-          echo "GITHUB_BASE_REF: $GITHUB_BASE_REF"
+          echo "---------------------------------"
+          echo "GITHUB_JOB: $GITHUB_JOB"
+          echo "GITHUB_RUN_ID: $GITHUB_RUN_ID"
+          echo "GITHUB_RUN_ATTEMPT: $GITHUB_RUN_ATTEMPT"
+          echo "GITHUB_RUN_NUMBER: $GITHUB_RUN_NUMBER"
+          echo "GITHUB_WORKFLOW: $GITHUB_WORKFLOW"
+          echo "URL: $GITHUB_SERVER_URL/$GITHUB_REPOSITORY/actions/runs/$GITHUB_RUN_ID"
+
+  to_summary:
+    runs-on: [ ubuntu-latest ]
+    steps:
+      - name: Send to summary
+        run: |
+          cat $GITHUB_EVENT_PATH >> $GITHUB_STEP_SUMMARY
